@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<MvcMusicStore_F2017.Models.Genre>
+
+<h2>Browse our Store</h2>
+
+<ul>
+    @foreach (var g in Model)
+    {
+        <li>@Html.ActionLink(g.Name, "Browse", "Store", new { genre = g.Name }, null)</li>
+    }
+</ul>

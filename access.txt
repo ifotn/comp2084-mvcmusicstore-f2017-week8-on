@@ -1,0 +1,8 @@
+Azure SQL Server
+
+Host: comp2084db-f2017.database.windows.net
+Dbname: comp2084db
+Un: mvcdba
+Pw: Music123$
+
+user: rich@live.ca / Abcd123$
