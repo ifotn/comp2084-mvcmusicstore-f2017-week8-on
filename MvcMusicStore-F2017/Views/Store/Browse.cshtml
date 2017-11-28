@@ -11,6 +11,7 @@
         <th>Title</th>
         <th>Artist</th>
         <th>Price</th>
+        <td>Add To Cart</td>
     </tr>
 
     @foreach (var a in Model.Albums)
@@ -19,6 +20,7 @@
             <td>@a.Title</td>
             <td>@a.Artist.Name</td>
             <td>@String.Format("{0:c}", a.Price)</td>
+            <td>@Html.ActionLink("Add To Cart", "AddToCart", "ShoppingCart", new { Id = a.AlbumId }, null)</td>
         </tr>
     }
 </table> 
