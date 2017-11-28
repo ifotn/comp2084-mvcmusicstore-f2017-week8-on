@@ -36,23 +36,56 @@ namespace MvcMusicStore_F2017.Models
             }
 
             cart.ShoppingCartId = context.Session["CartId"].ToString();
+
             return cart;
         }
 
         // Add To Cart
         public void AddToCart(int Id)
         {
-            var cartItem = new Cart
+            // is this album already in this cart?
+            var cartItem = db.Carts.SingleOrDefault(a => a.AlbumId == Id
+                && a.CartId == ShoppingCartId);
+
+            // if this album is not already in cart
+            if (cartItem == null) { 
+                cartItem = new Cart
+                {
+                    AlbumId = Id,
+                    CartId = ShoppingCartId,
+                    Count = 1,
+                    DateCreated = DateTime.Now
+                };
+
+                db.Carts.Add(cartItem);
+            }
+            else
             {
-                AlbumId = Id,
-                CartId = ShoppingCartId,
-                Count = 1,
-                DateCreated = DateTime.Now
-            };
+                // add 1 to the current count of this album
+                cartItem.Count++;
+            }
 
             // save to the database
-            db.Carts.Add(cartItem);
             db.SaveChanges();
+        }
+
+        // Get Cart Items
+        public List<Cart> GetCartItems()
+        {
+            return db.Carts.Where(c => c.CartId == ShoppingCartId).ToList();
+        }
+
+        // Get Cart Total
+        public decimal GetTotal()
+        {
+            // get the albums in the current cart
+            // calculate the total for each (count * price)
+            // sum all the line totals together
+            decimal? total = (from c in db.Carts
+                              where c.CartId == ShoppingCartId
+                              select (int?)c.Count * c.Album.Price).Sum();
+
+            return total ?? decimal.Zero;
         }
     }
 }

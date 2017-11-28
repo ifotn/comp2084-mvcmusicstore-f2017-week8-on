@@ -392,6 +392,7 @@ namespace MvcMusicStore_F2017.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["CartId"] = null;
             return RedirectToAction("Index", "Home");
         }
 
