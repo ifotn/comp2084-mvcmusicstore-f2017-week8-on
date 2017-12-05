@@ -27,6 +27,11 @@
                     <li>@Html.ActionLink("Store", "Index", "Store") </li>
                     <li>@Html.ActionLink("Cart", "Index", "ShoppingCart")</li>
 
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Orders", "Index", "Orders")</li>
+                    }
+
                     @if (User.IsInRole("Administrator")) { 
                         <li>@Html.ActionLink("Store Manager", "Index", "StoreManager")</li>
                     }

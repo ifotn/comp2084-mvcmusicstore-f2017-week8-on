@@ -87,5 +87,19 @@ namespace MvcMusicStore_F2017.Models
 
             return total ?? decimal.Zero;
         }
+
+        // Empty Cart
+        public void EmptyCart()
+        {
+            // get all items in the cart table for the current user
+            var cartItems = db.Carts.Where(c => c.CartId == ShoppingCartId);
+
+            foreach (Cart item in cartItems)
+            {
+                db.Carts.Remove(item);
+            }
+
+            db.SaveChanges();
+        }
     }
 }

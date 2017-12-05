@@ -95,10 +95,13 @@ namespace MvcMusicStore_F2017.Controllers
                 }
 
                 db.SaveChanges();
+
+                // empty the user's cart
+                cart.EmptyCart();
             }
 
             // redirect to Order Details
-            return RedirectToAction("Details", "Order", new { Id = order.OrderId });
+            return RedirectToAction("Details", "Orders", new { id = order.OrderId });
         }
     }
 }
