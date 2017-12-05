@@ -69,6 +69,30 @@ namespace MvcMusicStore_F2017.Models
             db.SaveChanges();
         }
 
+        // Remove Item from Cart
+        public void RemoveFromCart(int id)
+        {
+            // get the selected album
+            var item = db.Carts.SingleOrDefault(c => c.AlbumId == id
+                && c.CartId == ShoppingCartId);
+
+            if (item != null)
+            {
+                // if quantity is 1, delete the item
+                if (item.Count == 1)
+                {
+                    db.Carts.Remove(item);
+                }
+                else
+                {
+                    // if quantity > 1, subtract 1 from the quantity
+                    item.Count--;
+                }
+
+                db.SaveChanges();
+            }
+        }
+
         // Get Cart Items
         public List<Cart> GetCartItems()
         {

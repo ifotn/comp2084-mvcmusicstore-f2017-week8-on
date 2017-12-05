@@ -43,6 +43,19 @@ namespace MvcMusicStore_F2017.Controllers
 
         }
 
+        // GET: RemoveFromCart/300
+        public ActionResult RemoveFromCart(int Id)
+        {
+            // get the current Cart
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+
+            // remove the current Album from the cart
+            cart.RemoveFromCart(Id);
+
+            // redirect to Index to show the updated cart
+            return RedirectToAction("Index");
+        }
+
         [Authorize]
         // GET: Checkout
         public ActionResult Checkout()
