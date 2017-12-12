@@ -30,11 +30,11 @@ namespace MvcMusicStore_F2017.Controllers
         }
 
         // GET: StoreManager
-        public ActionResult Index()
+        public ViewResult Index()
         {
             var albums = db.Albums.Include(a => a.Artist).Include(a => a.Genre);
             ViewBag.AlbumCount = albums.Count();
-            return View(albums.ToList().OrderBy(a => a.Artist.Name).ThenBy(a => a.Title));
+            return View(albums.OrderBy(a => a.Artist.Name).ThenBy(a => a.Title).ToList());
         }
 
         //// POST: Store/Manager - search by Title
@@ -53,21 +53,21 @@ namespace MvcMusicStore_F2017.Controllers
         //    return View(albums);
         //}
 
-        //[AllowAnonymous]
-        //// GET: StoreManager/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Album album = db.Albums.Find(id);
-        //    if (album == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(album);
-        //}
+        [AllowAnonymous]
+        // GET: StoreManager/Details/5
+        public ViewResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return View("Error");
+            }
+            Album album = db.Albums.FirstOrDefault(a => a.AlbumId == id);
+            if (album == null)
+            {
+                return View("Error");
+            }
+            return View(album);
+        }
 
         //// GET: StoreManager/Create
         //public ActionResult Create()
@@ -175,16 +175,26 @@ namespace MvcMusicStore_F2017.Controllers
         //    return View(album);
         //}
 
-        //// POST: StoreManager/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Album album = db.Albums.Find(id);
-        //    db.Albums.Remove(album);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // POST: StoreManager/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ViewResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return View("Error");
+            }
+
+            Album album = db.Albums.FirstOrDefault(a => a.AlbumId == id);
+
+            if (album == null)
+            {
+                return View("Error");
+            }
+
+            db.Delete(album);
+            return View("Index");
+        }
 
         //protected override void Dispose(bool disposing)
         //{
