@@ -26,5 +26,20 @@ namespace MvcMusicStore_F2017.Controllers
 
             return View();
         }
+
+        public string GetWeather(int Temperature)
+        {
+            if (Temperature < 1)
+            {
+                return "Stay home";
+            }
+            else if (Temperature < 20) {
+                return "Go fishing";
+            }
+            else
+            {
+                return "Go play beach volleyball";
+            }
+        }
     }
 }

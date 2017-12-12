@@ -50,5 +50,58 @@ namespace MvcMusicStore_F2017.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
         }
+
+        [TestMethod]
+        public void GetWeatherColdValid()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+
+            // Act
+            string result = controller.GetWeather(-15);
+
+            // Assert
+            Assert.AreEqual("Stay home", result);
+        }
+
+        // this test isn't really necessary as all code paths will be tested anyway
+        [TestMethod]
+        public void GetWeatherColdInvalid()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+
+            // Act
+            string result = controller.GetWeather(-15);
+
+            // Assert
+            Assert.AreNotEqual("Go fishing", result);
+        }
+
+        [TestMethod]
+        public void GetWeatherMediumValid()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+
+            // Act
+            string result = controller.GetWeather(15);
+
+            // Assert
+            Assert.AreEqual("Go fishing", result);
+        }
+
+        [TestMethod]
+        public void GetWeatherHotValid()
+        {
+            // Arrange
+            HomeController controller = new HomeController();
+
+            // Act
+            string result = controller.GetWeather(25);
+
+            // Assert
+            Assert.AreEqual("Go play beach volleyball", result);
+        }
     }
 }
