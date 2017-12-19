@@ -123,5 +123,221 @@ namespace MvcMusicStore_F2017.Tests.Controllers
             // assert
             Assert.AreEqual("Index", actual.ViewName);
         }
+
+        // GET: Edit
+        [TestMethod]
+        public void EditInvalidNoId()
+        {
+            // Arrange
+            int? id = null;
+
+            // Act          
+            ViewResult actual = controller.Edit(id);
+
+            //Assert           
+            Assert.AreEqual("Error", actual.ViewName);
+        }
+
+        [TestMethod]
+        public void EditValidId()
+        {
+            // act           
+            ViewResult actual = controller.Edit(1);
+
+            // assert           
+            Assert.AreEqual("Edit", actual.ViewName);
+        }
+
+        [TestMethod]
+        public void EditInvalidId()
+        {
+            // act           
+            ViewResult actual = controller.Edit(4);
+
+            // assert   
+            Assert.AreEqual("Error", actual.ViewName);
+        }
+
+        [TestMethod]
+        public void EditValidArtists()
+        {
+            // act
+            ViewResult actual = controller.Edit(1);
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.ArtistId);
+        }
+
+        [TestMethod]
+        public void EditValidGenres()
+        {
+            // act
+            ViewResult actual = controller.Edit(1);
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.GenreId);
+        }
+
+        // POST: Edit
+        [TestMethod]
+        public void EditSaveValid()
+        {
+            // act - casting the ActionResult to a RedirectToRouteResult
+            RedirectToRouteResult actual = (RedirectToRouteResult)controller.Edit(albums[0]);
+
+            // assert
+            Assert.AreEqual("Index", actual.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void EditSaveInvalidModelArtists()
+        {
+            // arrange
+            controller.ModelState.AddModelError("key", "some error here");
+
+            // act
+            ViewResult actual = (ViewResult)controller.Edit(albums[0]);
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.ArtistId);
+        }
+
+        [TestMethod]
+        public void EditSaveInvalidModelGenres()
+        {
+            // arrange
+            controller.ModelState.AddModelError("key", "some error here");
+
+            // act
+            ViewResult actual = (ViewResult)controller.Edit(albums[0]);
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.GenreId);
+        }
+
+        [TestMethod]
+        public void EditSaveInvalidLoadsEditView()
+        {
+            // arrange
+            controller.ModelState.AddModelError("key", "some error here");
+
+            // act
+            ViewResult actual = (ViewResult)controller.Edit(albums[0]);
+
+            // assert
+            Assert.AreEqual("Edit", actual.ViewName);
+        }
+
+        // GET: Delete
+        [TestMethod]
+        public void DeleteNoId()
+        {
+            // Act           
+            ViewResult actual = controller.Delete(null);
+
+            // Assert           
+            Assert.AreEqual("Error", actual.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteValidId()
+        {
+            //act             
+            ViewResult actual = controller.Delete(1);
+
+            //assert             
+            Assert.AreEqual("Delete", actual.ViewName);
+        }
+
+        [TestMethod]
+        public void DeleteInValidId()
+        {
+            //act 
+            ViewResult actual = controller.Delete(4);
+
+            //assert 
+            Assert.AreEqual("Error", actual.ViewName);
+        }
+
+        // GET: Create
+        [TestMethod]
+        public void CreateLoadsArtists()
+        {
+            // act
+            ViewResult actual = (ViewResult)controller.Create();
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.ArtistId);
+        }
+
+        [TestMethod]
+        public void CreateLoadsGenres()
+        {
+            // act
+            ViewResult actual = (ViewResult)controller.Create();
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.GenreId);
+        }
+
+        [TestMethod]
+        public void CreateLoadsView()
+        {
+            // act
+            ViewResult actual = (ViewResult)controller.Create();
+
+            // assert
+            Assert.AreEqual("Create", actual.ViewName);
+        }
+
+        // POST: Create
+        [TestMethod]
+        public void CreateSaveValid()
+        {
+            // act - casting the ActionResult to a RedirectToRouteResult
+            RedirectToRouteResult actual = (RedirectToRouteResult)controller.Create(albums[0]);
+
+            // assert
+            Assert.AreEqual("Index", actual.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void CreateSaveInvalidModelArtists()
+        {
+            // arrange
+            controller.ModelState.AddModelError("key", "some error here");
+
+            // act
+            ViewResult actual = (ViewResult)controller.Create(albums[0]);
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.ArtistId);
+        }
+
+        [TestMethod]
+        public void CreateSaveInvalidModelGenres()
+        {
+            // arrange
+            controller.ModelState.AddModelError("key", "some error here");
+
+            // act
+            ViewResult actual = (ViewResult)controller.Create(albums[0]);
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.GenreId);
+        }
+
+        [TestMethod]
+        public void CreateSaveInvalidLoadsEditView()
+        {
+            // arrange
+            controller.ModelState.AddModelError("key", "some error here");
+
+            // act
+            ViewResult actual = (ViewResult)controller.Create(albums[0]);
+
+            // assert
+            Assert.AreEqual("Create", actual.ViewName);
+        }
     }
 }
